@@ -24,7 +24,7 @@ app.get("/api/hello", function (req, res) {
 });
 
 function getDateObject(date) {
-  if (date === "") {
+  if (!date || date === "") {
     return new Date();
   }
   const dateInt = Number(date);
@@ -33,6 +33,14 @@ function getDateObject(date) {
   }
   return new Date(date);
 }
+
+app.get("/api", (req, res) => {
+  const date = new Date();
+  res.json({
+    unix: date.valueOf(),
+    utc: date.toUTCString(),
+  });
+});
 
 app.get("/api/:date", (req, res) => {
   const date = getDateObject(req.params.date);
